@@ -4,6 +4,7 @@ class Slider {
         this.slides = this.page.children;
         this.btns = document.querySelectorAll(btns);
         this.n = 1;
+        this.t = 0;
     }
 
     showPages(n) {
@@ -14,6 +15,23 @@ class Slider {
         this.slides[n - 1].style.display = 'block';
     }
 
+    showHanson() {
+        this.hanson = document.querySelector('.hanson');
+        this.hanson.style.transform = 'translateY(100%)';
+
+        if (this.n === 3 && this.t === 0) {
+            this.timer = setTimeout(() => {
+                this.hanson.style.transition = '0.6s linear';
+                this.hanson.style.transform = 'translateY(0%)';
+                this.t = 1;
+            }, 3000);
+        } else if (this.n !== 3 && this.t === 0) {
+            clearTimeout(this.timer);
+        } else {
+            this.hanson.style.transform = 'translateY(0%)';
+        }
+    }
+
     render() {
         this.btns.forEach(item => {
             item.addEventListener('click', () => {
@@ -22,7 +40,7 @@ class Slider {
                     this.n = 1;
                 }
                 this.showPages(this.n);
-
+                this.showHanson();
             });
             item.parentElement.previousElementSibling.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -30,6 +48,7 @@ class Slider {
                 this.showPages(this.n);
             });
         });
+
     }
 }
 
