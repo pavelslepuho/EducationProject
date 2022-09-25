@@ -1,8 +1,8 @@
-class Slider {
+import Slider from "./slider";
+
+class MainSlider extends Slider {
     constructor(page, btns) {
-        this.page = document.querySelector(page);
-        this.slides = this.page.children;
-        this.btns = document.querySelectorAll(btns);
+        super(page, btns);
         this.n = 1;
         this.t = 0;
     }
@@ -52,4 +52,4 @@ class Slider {
     }
 }
 
-export default Slider;
+export default MainSlider;

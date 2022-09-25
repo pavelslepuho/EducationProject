@@ -1,7 +1,8 @@
-import Slider from "./modules/slider";
+import Slider from "./modules/sliders/slider";
+import MainSlider from "./modules/sliders/mainSlider";
 import VideoPlayer from "./modules/playVideo";
 
 window.addEventListener('DOMContentLoaded', () => {
-    let slider = new Slider('.page', '.next').render();
-    let player = new VideoPlayer('.showup .play', '.overlay').init();
+    new MainSlider({page: '.page', btns: '.next'}).render();
+    new VideoPlayer('.showup .play', '.overlay').init();
 });
