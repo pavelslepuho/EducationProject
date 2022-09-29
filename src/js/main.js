@@ -29,7 +29,16 @@ window.addEventListener('DOMContentLoaded', () => {
         activeClass: 'feed__item-active'
     }).init();
 
-    new Differences('.officernew', '.officer__card-item').init();
+    new Differences({
+        differencesBlockSelector: '.officernew', 
+        differencesItemsSelector: '.officer__card-item'
+    }).init();
+
+    new Differences({
+        differencesBlockSelector: '.officerold',
+        differencesItemsSelector: '.officer__card-item'
+    }).init();
+
 
 
 });

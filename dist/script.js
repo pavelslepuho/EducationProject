@@ -2794,7 +2794,14 @@ window.addEventListener('DOMContentLoaded', function () {
     prev: '.feed__slider .slick-prev',
     activeClass: 'feed__item-active'
   }).init();
-  new _modules_differences__WEBPACK_IMPORTED_MODULE_4__["default"]('.officernew', '.officer__card-item').init();
+  new _modules_differences__WEBPACK_IMPORTED_MODULE_4__["default"]({
+    differencesBlockSelector: '.officernew',
+    differencesItemsSelector: '.officer__card-item'
+  }).init();
+  new _modules_differences__WEBPACK_IMPORTED_MODULE_4__["default"]({
+    differencesBlockSelector: '.officerold',
+    differencesItemsSelector: '.officer__card-item'
+  }).init();
 });
 
 /***/ }),
@@ -2808,6 +2815,10 @@ window.addEventListener('DOMContentLoaded', function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -2817,18 +2828,60 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Differences =
 /*#__PURE__*/
 function () {
-  function Differences(differencesBlockSelector, differencesItemsSelector) {
+  function Differences(_ref) {
+    var differencesBlockSelector = _ref.differencesBlockSelector,
+        differencesItemsSelector = _ref.differencesItemsSelector;
+
     _classCallCheck(this, Differences);
 
     this.differencesBlockSelector = differencesBlockSelector;
     this.differencesItemsSelector = differencesItemsSelector;
+    this.differencesItems = document.querySelector(this.differencesBlockSelector).querySelectorAll(this.differencesItemsSelector);
+    this.num = 0;
+    this.margin = window.getComputedStyle(this.differencesItems[this.differencesItems.length - 1]).getPropertyValue('margin-top');
   }
 
   _createClass(Differences, [{
+    key: "hideItems",
+    value: function hideItems() {
+      var _this = this;
+
+      this.differencesItems.forEach(function (item, i) {
+        if (i === _this.differencesItems.length - 1) {} else {
+          item.style.display = 'none';
+          item.style.opacity = '0';
+        }
+      });
+    }
+  }, {
+    key: "showItem",
+    value: function showItem() {
+      var _this2 = this;
+
+      this.differencesItems[this.differencesItems.length - 1].querySelector('.plus__content').addEventListener('click', function () {
+        if (_this2.num === 2) {
+          _this2.differencesItems[_this2.num].style.cssText = "\n                    opacity: 1;\n                    transition: 0.5s;\n                ";
+          _this2.differencesItems[_this2.num].style.display = 'flex';
+          _this2.differencesItems[_this2.differencesItems.length - 1].style.cssText = "\n                    transform: translateY(calc(-100% - ".concat(_this2.margin, "));\n                    transition: none transform;\n                    opacity: 0;\n                    transition: 0.5s opacity;\n                ");
+          setTimeout(function () {
+            _this2.differencesItems[_this2.differencesItems.length - 1].style.display = 'none';
+          }, 500);
+        } else {
+          _this2.differencesItems[_this2.num].style.cssText = "\n                    opacity: 1;\n                    transition: 0.5s;\n                ";
+          _this2.differencesItems[_this2.num].style.display = 'flex';
+          _this2.differencesItems[_this2.differencesItems.length - 1].style.cssText = "\n                    transform: translateY(calc(-100% - ".concat(_this2.margin, "));\n                    transition: none;\n                ");
+          setTimeout(function () {
+            _this2.differencesItems[_this2.differencesItems.length - 1].style.cssText = "\n                        transform: none;\n                        transition: 0.5s;\n                    ";
+          }, 0);
+          _this2.num++;
+        }
+      });
+    }
+  }, {
     key: "init",
     value: function init() {
-      var a = document.querySelector(this.differencesBlockSelector).querySelectorAll(this.differencesItemsSelector);
-      console.log(a);
+      this.hideItems();
+      this.showItem();
     }
   }]);
 
