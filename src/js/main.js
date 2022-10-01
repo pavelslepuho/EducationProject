@@ -3,6 +3,7 @@ import MainSlider from "./modules/sliders/mainSlider";
 import MiniSlider from "./modules/sliders/miniSlider";
 import VideoPlayer from "./modules/playVideo";
 import Differences from "./modules/differences";
+import Form from "./modules/forms";
 
 window.addEventListener('DOMContentLoaded', () => {
     new MainSlider({container: '.page', btns: '.next'}).render();
@@ -39,6 +40,6 @@ window.addEventListener('DOMContentLoaded', () => {
         differencesItemsSelector: '.officer__card-item'
     }).init();
 
-
-
+    new Form(".join__evolution .form", "http://localhost:3000/posts_1").init();
+    new Form(".schedule__form .form", "http://localhost:3000/posts_2").init();
 });
