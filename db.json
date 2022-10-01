@@ -1,28 +1,6 @@
 {
   "posts_1": [
-    {
-      "name": "Павел Владимирович Слепухо",
-      "position": "7t7876",
-      "city": "London",
-      "email": "spav112@yandex.ru",
-      "phone": "+375293551522",
-      "id": 1
-    },
-    {
-      "name": "",
-      "position": "",
-      "city": "New-York",
-      "email": "",
-      "phone": "",
-      "id": 2
-    }
   ],
   "posts_2": [
-    {
-      "name": "",
-      "email": "",
-      "date": "",
-      "id": 1
-    }
   ]
 }

@@ -4024,6 +4024,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.promise.finally */ "./node_modules/core-js/modules/es.promise.finally.js");
 /* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -4048,7 +4051,8 @@ function () {
     this.message = {
       loading: "Loading...",
       success: "Done! We will respond you as soon as possible!",
-      failure: "Ops... Something went wrong..."
+      failure: "Ops... Something went wrong...",
+      empty: "Please, fill in empty fields"
     };
   }
 
@@ -4057,7 +4061,7 @@ function () {
     value: function addMessage(m) {
       var _this = this;
 
-      if (m === this.message.loading) {
+      if (m === this.message.loading || m === this.message.empty) {
         try {
           document.querySelector('#message').remove();
         } catch (e) {}
@@ -4083,31 +4087,50 @@ function () {
     value: function init() {
       var _this2 = this;
 
+      this.form.querySelectorAll('input').forEach(function (input) {
+        input.addEventListener('input', function () {
+          if (input.value) {
+            input.style.background = 'rgba(216, 216, 216, .3)';
+          }
+        });
+      });
       this.form.addEventListener('submit', function (e) {
         e.preventDefault();
+        _this2.emptyInputValueCount = 0;
 
-        _this2.addMessage(_this2.message.loading);
-
-        _this2.formData = new FormData(_this2.form);
-        _this2.jsonData = JSON.stringify(Object.fromEntries(_this2.formData));
-
-        _this2.form.reset();
-
-        fetch(_this2.url, {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json;charset=utf-8"
-          },
-          body: _this2.jsonData
-        }).then(function () {
-          return _this2.addMessage(_this2.message.success);
-        }).catch(function () {
-          return _this2.addMessage(_this2.message.failure);
-        }).finally(function () {
-          return setTimeout(function () {
-            return _this2.addMessage();
-          }, 4000);
+        _this2.form.querySelectorAll('input').forEach(function (input) {
+          if (!input.value) {
+            input.style.backgroundColor = 'red';
+            _this2.emptyInputValueCount++;
+          }
         });
+
+        if (_this2.emptyInputValueCount === 0) {
+          _this2.addMessage(_this2.message.loading);
+
+          _this2.formData = new FormData(_this2.form);
+          _this2.jsonData = JSON.stringify(Object.fromEntries(_this2.formData));
+
+          _this2.form.reset();
+
+          fetch(_this2.url, {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json;charset=utf-8"
+            },
+            body: _this2.jsonData
+          }).then(function () {
+            return _this2.addMessage(_this2.message.success);
+          }).catch(function () {
+            return _this2.addMessage(_this2.message.failure);
+          }).finally(function () {
+            setTimeout(function () {
+              return _this2.addMessage();
+            }, 4000);
+          });
+        } else {
+          _this2.addMessage(_this2.message.empty);
+        }
       });
     }
   }]);
